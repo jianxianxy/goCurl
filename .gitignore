@@ -1,0 +1,7 @@
+nbproject/
+html/
+*.log
+.idea/
+bin/
+pkg/
+*.exe
