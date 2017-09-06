@@ -13,8 +13,10 @@ import (
 )
 
 func main(){
-    para := paramFile("id.txt")
-    fmt.Println(para)
+    para := paramLine("id.txt")
+    for _,val := range para{
+        fmt.Println(val)
+    }
     /*
     param := make(map[string]string)
     param["id"] = "123"
@@ -94,6 +96,29 @@ func paramFile(fpath string) []map[string]string{
             qumap[quarr[i*2]] = quarr[i*2+1]    
         }
         paret = append(paret,qumap)
+    }
+    return paret
+}
+
+/* 解析文件成string切片用于get
+ * fpath 文件路径
+ */ 
+func paramLine(fpath string) []string{
+    file,err := os.Open(fpath)
+    if err != nil{
+        panic("文件不存在")
+    }
+    defer file.Close()
+    rd := bufio.NewReader(file)
+    paret := make([]string,0)
+    for{
+        //line,err := rd.ReadString('\n') //读取行,如果文件末尾没有空行，最后一行不返回
+        line,_,err := rd.ReadLine()
+        if err != nil || err == io.EOF{
+            break
+        }
+        qstr := strings.TrimSpace(string(line))
+        paret = append(paret,qstr)
     }
     return paret
 }
