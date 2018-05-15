@@ -1,35 +1,20 @@
 //批量发送http请求
-package main
+package multiHttp
 
 import (
 	"strings"
 	"io"
 	"bufio"
 	"os"
-    "fmt"
     "net/http"
     "io/ioutil"
 	"net/url"
 )
 
-func main(){
-    para := paramLine("id.txt")
-    for _,val := range para{
-        fmt.Println(val)
-    }
-    /*
-    param := make(map[string]string)
-    param["id"] = "123"
-    param["name"] = "leiluo"
-
-    body := post("http://www.v.com/test.php",param)
-    fmt.Println(body)
-    */
-}
 /* GET 请求
  * uri http地址
  */ 
-func get(uri string) string{
+func Get(uri string) string{
     rep,err := http.Get(uri)
     if err != nil{
         return "404"
@@ -45,7 +30,7 @@ func get(uri string) string{
  * uri http地址
  * param POST参数
  */ 
-func post(uri string,param map[string]string) string{
+func Post(uri string,param map[string]string) string{
     query := url.Values{}
     for key,val := range param{
         query.Set(key,val)    
@@ -65,7 +50,7 @@ func post(uri string,param map[string]string) string{
 /* 解析文件成map切片用于post
  * fpath 文件路径
  */ 
-func paramFile(fpath string) []map[string]string{
+func ParamFile(fpath string) []map[string]string{
     file,err := os.Open(fpath)
     if err != nil{
         panic("文件不存在")
@@ -103,7 +88,7 @@ func paramFile(fpath string) []map[string]string{
 /* 解析文件成string切片用于get
  * fpath 文件路径
  */ 
-func paramLine(fpath string) []string{
+func ParamLine(fpath string) []string{
     file,err := os.Open(fpath)
     if err != nil{
         panic("文件不存在")
